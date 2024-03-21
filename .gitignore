@@ -6,4 +6,4 @@ Module.symvers
 .cache.mk
 .tmp_versions
 (\.).*.cmd
-.uaf_driver.o.cmd
+*.cmd
