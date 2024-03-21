@@ -1,0 +1,6 @@
+*.o
+*.ko
+*.mod.*
+Makefile
+modules.order
+Module.symvers
