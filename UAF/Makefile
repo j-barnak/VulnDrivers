@@ -6,5 +6,4 @@ kbuild:
 clean:
 	make -C $(KDIR) M=`pwd` clean
 
-# ifneq ($(KERNELRELEASE),)
 obj-m = uaf_driver.o
