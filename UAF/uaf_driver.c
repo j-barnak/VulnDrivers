@@ -8,24 +8,27 @@ MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Jared");
 MODULE_DESCRIPTION("Vulnerable UAF Driver :)");
 
+void uaf_callback(void);
+int uaf_alloc_object(unsigned long __user args);
+int uaf_use_object(void);
+void uaf_free_object(void);
+
 typedef struct uaf_object {
 	char uaf_buffer_one[56];
 	long args;
-	void (*fn_pointer)(void);
+	void (*cb)(void);
 	char uaf_buffer_two[20];
 } uaf_object_t;
 
-
-uaf_object_t *__uaf_object_context; 
 
 typedef struct k_object {
 	char k_buffer[96];
 } k_object_t;
 
-static void uaf_callback(void) { printk("callback entered\n"); }
+uaf_object_t * uaf_object_context; 
 
-static int
-uaf_alloc_obj(unsigned long __user args)
+int
+uaf_alloc_object(unsigned long __user args)
 { 
 	uaf_object_t *obj = kmalloc(sizeof(uaf_object_t), GFP_KERNEL);
 	if (!obj) { 
@@ -34,31 +37,40 @@ uaf_alloc_obj(unsigned long __user args)
 	}
 
 	obj->args = args;
-	obj->fn_pointer = &uaf_callback;
+	obj->cb = &uaf_callback;
 
-	__uaf_object_context  = obj;
+	uaf_object_context  = obj;
 
-	printk("== Allocated uaf_object_t ==");
+	pr_debug("== Allocated uaf_object_t ==");
 
 	return 0;
 }
 
-static int
-uaf_use_object() {
-	if (!(__uaf_object_context->fn_ptr)) {
-		printk("Null")
+int
+uaf_use_object(void)
+{
+	if (!(uaf_object_context->cb)) {
+		pr_debug("Null");
 		return -1;
 	}
 
-	printk("Calling fn_ptr: 0x%p\n", __uaf_object_conext->fn_ptr);
-	__uaf_object_context->fn_ptr();
+	printk("Calling fn_ptr: 0x%p\n", uaf_object_context->cb);
+	uaf_object_context->cb();
+
+	return 0;
 }
 
-static void
-uaf_free_obj(void)
+void
+uaf_free_object(void)
 { 
 	printk("== Freed uaf_object_t ==");
-	kfree(__uaf_object_context);
+	kfree(uaf_object_context);
+}
+
+void
+uaf_callback(void)
+{
+	printk("callback entered\n"); 
 }
 
 enum IoctlSwitch {
@@ -74,18 +86,19 @@ ioctl_fn(struct file *f, unsigned int cmd, unsigned long args)
 	switch(cmd) {
 		case ALLOC_UAF_OBJECT:
 		{
-			uaf_alloc_obj(args);
+			uaf_alloc_object(args);
 			break;
 		}
 
 		case USE_UAF_OBJECT: 
 		{
+			uaf_use_object();
 			break;
 	    }
 
 		case FREE_UAF_OBJECT:
 		{
-			uaf_free_obj();
+			uaf_free_object();
 			break;
 		}
 

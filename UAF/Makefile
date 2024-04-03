@@ -6,4 +6,4 @@ kbuild:
 clean:
 	make -C $(KDIR) M=`pwd` clean
 
-obj-m = uaf_driver.o
+obj-m += uaf_driver.o
