@@ -4,74 +4,7 @@
 #include <linux/miscdevice.h>
 #include <linux/slab.h>
 
-MODULE_LICENSE("GPL");
-MODULE_AUTHOR("Jared");
-MODULE_DESCRIPTION("Vulnerable UAF Driver :)");
-
-void uaf_callback(void);
-int uaf_alloc_object(unsigned long __user args);
-int uaf_use_object(void);
-void uaf_free_object(void);
-
-typedef struct uaf_object {
-	char uaf_buffer_one[56];
-	long args;
-	void (*cb)(void);
-	char uaf_buffer_two[20];
-} uaf_object_t;
-
-
-typedef struct k_object {
-	char k_buffer[96];
-} k_object_t;
-
-uaf_object_t * uaf_object_context; 
-
-int
-uaf_alloc_object(unsigned long __user args)
-{ 
-	uaf_object_t *obj = kmalloc(sizeof(uaf_object_t), GFP_KERNEL);
-	if (!obj) { 
-		printk("Out of memory\n");
-		return ENOMEM;
-	}
-
-	obj->args = args;
-	obj->cb = &uaf_callback;
-
-	uaf_object_context  = obj;
-
-	pr_debug("== Allocated uaf_object_t ==");
-
-	return 0;
-}
-
-int
-uaf_use_object(void)
-{
-	if (!(uaf_object_context->cb)) {
-		pr_debug("Null");
-		return -1;
-	}
-
-	printk("Calling fn_ptr: 0x%p\n", uaf_object_context->cb);
-	uaf_object_context->cb();
-
-	return 0;
-}
-
-void
-uaf_free_object(void)
-{ 
-	printk("== Freed uaf_object_t ==");
-	kfree(uaf_object_context);
-}
-
-void
-uaf_callback(void)
-{
-	printk("callback entered\n"); 
-}
+#include "./uaf.h"
 
 enum IoctlSwitch {
 	ALLOC_UAF_OBJECT 	= 0,
@@ -160,3 +93,5 @@ uaf_exit(void)
 
 module_init(uaf_init);
 module_exit(uaf_exit);
+
+MODULE_LICENSE("GPL");
