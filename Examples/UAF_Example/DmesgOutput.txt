@@ -1,0 +1,94 @@
+[   91.268752] uaf_driver: loading out-of-tree module taints kernel.
+[   91.268804] uaf_driver: module verification failed: signature and/or required key missing - tainting kernel
+[   91.270154] BUG: unable to handle kernel paging request at ffffaea84235fc58
+[   91.270165] IP: misc_devnode+0x11/0x40
+[   91.270167] PGD 13914c067 P4D 13914c067 PUD 13914d067 PMD 131879067 PTE 0
+[   91.270171] Oops: 0000 [#1] SMP NOPTI
+[   91.270174] Modules linked in: uaf_driver(OE) rfcomm bnep input_leds snd_ens1371 crct10dif_pclmul snd_ac97_codec crc32_pclmul gameport ac97_bus ghash_clmulni_intel pcbc snd_pcm joydev vmw_balloon aesni_intel aes_x86_64 crypto_simd snd_seq_midi serio_raw snd_seq_midi_event glue_helper snd_rawmidi cryptd snd_seq snd_seq_device snd_timer snd soundcore shpchp i2c_piix4 vmw_vsock_vmci_transport vsock btusb mac_hid btrtl vmw_vmci btbcm btintel bluetooth ecdh_generic parport_pc ppdev lp parport autofs4 hid_generic usbhid hid vmwgfx mptspi mptscsih mptbase ttm psmouse scsi_transport_spi e1000 drm_kms_helper syscopyarea sysfillrect sysimgblt fb_sys_fops ahci libahci drm pata_acpi
+[   91.270201] CPU: 1 PID: 2153 Comm: systemd-udevd Tainted: G           OE    4.15.0-142-generic #146~16.04.1-Ubuntu
+[   91.270202] Hardware name: VMware, Inc. VMware Virtual Platform/440BX Desktop Reference Platform, BIOS 6.00 11/12/2020
+[   91.270206] RIP: 0010:misc_devnode+0x11/0x40
+[   91.270207] RSP: 0018:ffffaea84204fcf8 EFLAGS: 00010286
+[   91.270213] RAX: ffffaea84235fc10 RBX: ffffaea84204fd36 RCX: ffffaea84204fd3c
+[   91.270214] RDX: ffffaea84204fd38 RSI: ffffaea84204fd36 RDI: ffff990a2b546c00
+[   91.270216] RBP: ffffaea84204fd18 R08: ffffaea84204fd40 R09: 0000000000000001
+[   91.270217] R10: ffff990ab0b08000 R11: ffff990ab0b0a12d R12: ffff990a2b546c00
+[   91.270219] R13: ffffaea84204fd40 R14: ffff990a2b546c10 R15: ffff990ab82a1900
+[   91.270221] FS:  00007fe9d58bc8c0(0000) GS:ffff990ab9640000(0000) knlGS:0000000000000000
+[   91.270223] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[   91.270225] CR2: ffffaea84235fc58 CR3: 00000000ab7f6004 CR4: 0000000000760ee0
+[   91.270266] PKRU: 55555554
+[   91.270267] Call Trace:
+[   91.270274]  ? device_get_devnode+0x6c/0xd0
+[   91.270278]  dev_uevent+0x166/0x2e0
+[   91.270283]  ? kmem_cache_alloc_trace+0x1b0/0x1c0
+[   91.270286]  uevent_show+0x99/0x100
+[   91.270289]  dev_attr_show+0x23/0x60
+[   91.270293]  ? mutex_lock+0x12/0x40
+[   91.270297]  sysfs_kf_seq_show+0xa2/0x130
+[   91.270301]  kernfs_seq_show+0x27/0x30
+[   91.270304]  seq_read+0xb7/0x480
+[   91.270307]  kernfs_fop_read+0x111/0x190
+[   91.270310]  ? security_file_permission+0xa1/0xc0
+[   91.270313]  __vfs_read+0x1b/0x40
+[   91.270315]  vfs_read+0x93/0x130
+[   91.270318]  SyS_read+0x5c/0xe0
+[   91.270322]  do_syscall_64+0x73/0x130
+[   91.270324]  entry_SYSCALL_64_after_hwframe+0x41/0xa6
+[   91.270327] RIP: 0033:0x7fe9d473b360
+[   91.270329] RSP: 002b:00007fff6a8f9418 EFLAGS: 00000246 ORIG_RAX: 0000000000000000
+[   91.270331] RAX: ffffffffffffffda RBX: 000055f3f0f6b6f0 RCX: 00007fe9d473b360
+[   91.270332] RDX: 0000000000001000 RSI: 000055f3f0f8c310 RDI: 0000000000000007
+[   91.270334] RBP: 0000000000000000 R08: 00007fe9d4a08fa8 R09: 000055f3f0f8c310
+[   91.270336] R10: 00007fe9d58bc8c0 R11: 0000000000000246 R12: 0000000000001000
+[   91.270337] R13: 0000000000001000 R14: 000055f3f0f8c310 R15: 000055f3f0f8c310
+[   91.270339] Code: c7 c7 00 60 aa 8c e8 44 9d 38 00 0f 0b 5b 41 5c 5d c3 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 85 f6 48 8b 87 98 00 00 00 74 09 <0f> b7 50 48 66 85 d2 75 19 48 8b 78 40 48 85 ff 74 15 55 be c0 
+[   91.270361] RIP: misc_devnode+0x11/0x40 RSP: ffffaea84204fcf8
+[   91.270362] CR2: ffffaea84235fc58
+[   91.270365] ---[ end trace b4fa9e12ee1a9ab0 ]---
+[   91.270699] BUG: unable to handle kernel paging request at ffffaea84235fc58
+[   91.270710] IP: misc_devnode+0x11/0x40
+[   91.270712] PGD 13914c067 P4D 13914c067 PUD 13914d067 PMD 131879067 PTE 0
+[   91.270716] Oops: 0000 [#2] SMP NOPTI
+[   91.270719] Modules linked in: uaf_driver(OE) rfcomm bnep input_leds snd_ens1371 crct10dif_pclmul snd_ac97_codec crc32_pclmul gameport ac97_bus ghash_clmulni_intel pcbc snd_pcm joydev vmw_balloon aesni_intel aes_x86_64 crypto_simd snd_seq_midi serio_raw snd_seq_midi_event glue_helper snd_rawmidi cryptd snd_seq snd_seq_device snd_timer snd soundcore shpchp i2c_piix4 vmw_vsock_vmci_transport vsock btusb mac_hid btrtl vmw_vmci btbcm btintel bluetooth ecdh_generic parport_pc ppdev lp parport autofs4 hid_generic usbhid hid vmwgfx mptspi mptscsih mptbase ttm psmouse scsi_transport_spi e1000 drm_kms_helper syscopyarea sysfillrect sysimgblt fb_sys_fops ahci libahci drm pata_acpi
+[   91.270745] CPU: 0 PID: 346 Comm: systemd-udevd Tainted: G      D    OE    4.15.0-142-generic #146~16.04.1-Ubuntu
+[   91.270746] Hardware name: VMware, Inc. VMware Virtual Platform/440BX Desktop Reference Platform, BIOS 6.00 11/12/2020
+[   91.270750] RIP: 0010:misc_devnode+0x11/0x40
+[   91.270758] RSP: 0018:ffffaea840fabcf8 EFLAGS: 00010286
+[   91.270760] RAX: ffffaea84235fc10 RBX: ffffaea840fabd36 RCX: ffffaea840fabd3c
+[   91.270762] RDX: ffffaea840fabd38 RSI: ffffaea840fabd36 RDI: ffff990a2b546c00
+[   91.270763] RBP: ffffaea840fabd18 R08: ffffaea840fabd40 R09: 0000000000000001
+[   91.270768] R10: ffff990ab02df000 R11: ffff990ab02d912d R12: ffff990a2b546c00
+[   91.270769] R13: ffffaea840fabd40 R14: ffff990a2b546c10 R15: ffff990aae888b80
+[   91.270774] FS:  00007fe9d58bc8c0(0000) GS:ffff990ab9600000(0000) knlGS:0000000000000000
+[   91.270776] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[   91.270777] CR2: ffffaea84235fc58 CR3: 0000000133da8004 CR4: 0000000000760ef0
+[   91.270815] PKRU: 55555554
+[   91.270817] Call Trace:
+[   91.270822]  ? device_get_devnode+0x6c/0xd0
+[   91.270827]  dev_uevent+0x166/0x2e0
+[   91.270830]  ? kmem_cache_alloc_trace+0x1b0/0x1c0
+[   91.270834]  uevent_show+0x99/0x100
+[   91.270836]  dev_attr_show+0x23/0x60
+[   91.270840]  ? mutex_lock+0x12/0x40
+[   91.270843]  sysfs_kf_seq_show+0xa2/0x130
+[   91.270846]  kernfs_seq_show+0x27/0x30
+[   91.270849]  seq_read+0xb7/0x480
+[   91.270852]  kernfs_fop_read+0x111/0x190
+[   91.270855]  ? security_file_permission+0xa1/0xc0
+[   91.270858]  __vfs_read+0x1b/0x40
+[   91.270859]  vfs_read+0x93/0x130
+[   91.270862]  SyS_read+0x5c/0xe0
+[   91.270865]  do_syscall_64+0x73/0x130
+[   91.270868]  entry_SYSCALL_64_after_hwframe+0x41/0xa6
+[   91.270870] RIP: 0033:0x7fe9d473b360
+[   91.270872] RSP: 002b:00007fff6a8f9978 EFLAGS: 00000246 ORIG_RAX: 0000000000000000
+[   91.270873] RAX: ffffffffffffffda RBX: 000055f3f0f5a210 RCX: 00007fe9d473b360
+[   91.270875] RDX: 0000000000001000 RSI: 000055f3f0f7bf70 RDI: 000000000000000e
+[   91.270876] RBP: 0000000000000000 R08: 00007fe9d4a08ff8 R09: 000055f3f0f7bf70
+[   91.270878] R10: 00007fe9d58bc8c0 R11: 0000000000000246 R12: 0000000000001000
+[   91.270879] R13: 0000000000001000 R14: 000055f3f0f7bf70 R15: 000055f3f0f7bf70
+[   91.270881] Code: c7 c7 00 60 aa 8c e8 44 9d 38 00 0f 0b 5b 41 5c 5d c3 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 85 f6 48 8b 87 98 00 00 00 74 09 <0f> b7 50 48 66 85 d2 75 19 48 8b 78 40 48 85 ff 74 15 55 be c0 
+[   91.270900] RIP: misc_devnode+0x11/0x40 RSP: ffffaea840fabcf8
+[   91.270901] CR2: ffffaea84235fc58
+[   91.270904] ---[ end trace b4fa9e12ee1a9ab1 ]---

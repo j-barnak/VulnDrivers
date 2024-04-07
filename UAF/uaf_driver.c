@@ -98,6 +98,7 @@ static long ioctl_fn(struct file *f, unsigned int cmd, unsigned long args) {
 	}
 
 	case ALLOC_K_OBJECT: {
+		alloc_k_object((k_object_t*) args);
 	    break;
 	}
 
@@ -118,13 +119,13 @@ static struct miscdevice initialize_vuln_misc_driver(void) {
 
     struct miscdevice m = {
 	.minor = MISC_DYNAMIC_MINOR,
-	.name = "Vulnerable UAF Driver",
+	.name = "UAF Driver",
 	.fops = &fop,
 	.list = {},
 	.parent = NULL,
 	.this_device = NULL,
 	.groups = NULL,
-	.nodename = "Awesome UAF Vuln",
+	.nodename = "UAF Node",
 	.mode = 1,
     };
 
