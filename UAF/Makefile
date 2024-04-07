@@ -1,10 +1,16 @@
-KDIR  = /lib/modules/`uname -r`/build
+KDIR = /lib/modules/`uname -r`/build
 
-uaf_driver-y := uaf.o
-obj-m 	     := uaf_driver.o
+obj-m := uaf_driver.o
 
-kbuild: 
+.PHONY: build clean load unload
+
+build: 
 	make -C $(KDIR) M=`pwd`
 
 clean:
 	make -C $(KDIR) M=`pwd` clean
+
+load:
+	sudo insmod uaf_driver.ko
+unload:
+	sudo rmmod uaf_driver
