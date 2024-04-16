@@ -1,6 +1,10 @@
 KDIR = /lib/modules/`uname -r`/build
 
 obj-m := uaf_driver.o
+uaf-objs := driver.o uaf.o
+
+CFLAGS_driver.o := -DDEBUG
+CFLAGS_uaf.o := -DDEBUG
 
 .PHONY: build clean load unload
 
