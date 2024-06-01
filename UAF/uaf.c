@@ -47,6 +47,7 @@ void use_uaf_obj()
         global_uaf_object->function_ptr);
 }
 
+// TODO: This is what I need to allocate
 void alloc_k_obj(struct KernelObject* object)
 {
     pr_alert("[INFO] alloc_k_obj(struct KernelObject* object) called");
