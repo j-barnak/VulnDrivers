@@ -9,7 +9,7 @@ CFLAGS_uaf.o := -DDEBUG
 .PHONY: build clean load unload
 
 build: 
-	make -C $(KDIR) M=`pwd`
+	make -C $(KDIR) modules M=`pwd`
 
 clean:
 	make -C $(KDIR) M=`pwd` clean
