@@ -37,8 +37,14 @@ int alloc_uaf_obj(long arg)
 
 void use_uaf_obj()
 {
+    if (!global_uaf_object->function_ptr) {
+        pr_alert("[INFO] global_uaf_object->function_ptr is NULL");
+    }
+
     pr_alert("[INFO] use_uaf_obj() called");
     global_uaf_object->function_ptr();
+    pr_alert("[INFO] global_uaf_object's function_ptr: %p",
+        global_uaf_object->function_ptr);
 }
 
 void alloc_k_obj(struct KernelObject* object)
